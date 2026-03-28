@@ -1,5 +1,3 @@
-#include <cctype>
-
 #include "parser.h"
 #include "errorlist.h"
 
@@ -7,14 +5,21 @@ using namespace Parser;
 
 using ParseErr = Error::ParsingError;
 
-Register::Register(std::string_view n, int i) : 
-    name{n}, 
-    id{i} 
+Token::Token(Instruction::TokenType type, Instruction::OpCode val) :
+    token_type{type}, value{val} { }
+Token::Token(Instruction::TokenType type, int val) :
+    token_type{type}, value{val} { }
+Token::Token(Instruction::TokenType type, std::string_view val) :
+    token_type{type}, value{val} { }
+
+Inst::Inst(Instruction::OpCode i, TokenOpt t1, TokenOpt t2, TokenOpt t3 ) : //overhaul
+    instruction{i}, 
+    args{t1, t2, t3} 
 { }
 
-Inst::Inst(Instruction::OpCode i, Reg r1, Reg r2, Reg r3 ) :
-    instruction{i}, 
-    args{r1, r2, r3} 
+UnvalInst::UnvalInst() :
+    token_arr{std::nullopt},
+    used_size{0}
 { }
 
 Tokenizer::Tokenizer() :
@@ -22,6 +27,7 @@ Tokenizer::Tokenizer() :
     prev_state{State::Nil},
     cur_action{Action::Push},
     buffer{""},
+    buffer_size{0},
     cur_ch{0},
     ch_count{0},
     line_count{0},
@@ -329,6 +335,34 @@ void Tokenizer::set_action() {
                     break;
             }
             break;
+    }
+
+}
+
+void Tokenizer::execute() {
+    
+    if (!error_detected) switch (cur_action) {
+
+        case Action::Push:
+            buffer.push_back(cur_ch);
+            ++buffer_size;
+            break;
+        
+        case Action::Emit:
+            
+            Token token;
+            switch (prev_state) {
+                case State::Idn:
+                    try {
+                        token = Token(Instruction::TokenType::OpCode, Instruction::instruction_map.at(buffer)); //tt
+                    } catch (const std::out_of_range& e) {
+                        token = Token(Instruction::TokenType::Variable, std::string_view(buffer)); //sv
+                    }
+                    break;
+                case State::Reg:
+                    token = Token(Instruction::TokenType::Register, std::stoi(buffer)); //account for error handling
+            }
+
     }
 
 }

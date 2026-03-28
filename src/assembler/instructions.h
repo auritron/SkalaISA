@@ -5,6 +5,15 @@
 
 namespace Instruction {
 
+    enum class TokenType {
+        OpCode,
+        Variable,
+        Register,
+        Immediate,
+        Label,
+        Address,
+    };
+
     enum class OpCode {
 
         //  memory and registers
@@ -61,7 +70,7 @@ namespace Instruction {
     };
 
     // Opcode : number of args
-    const std::unordered_map<std::string_view, OpCode> instruction_map {
+    static const std::unordered_map<std::string_view, OpCode> instruction_map {
         { "LOAD",   OpCode::LOAD },
         { "SEND",   OpCode::SEND },
         { "COPY",   OpCode::COPY },

@@ -1,11 +1,14 @@
 #pragma once
 
+#include <cctype>
 #include <string>
 #include <string_view>
 #include <array>
 #include <vector>
 #include <optional>
 #include <unordered_map>
+#include <stdexcept>
+#include <variant>
 
 #include "instructions.h"
 #include "errorlist.h"
@@ -60,31 +63,46 @@ namespace Parser {
         Idle,   //do nothing
     };
 
-    class Register { //probably creating a single wrapper for an int here
-        private:
-
-            std::string_view name;
-            int id;
+    class Token {
 
         public:
 
-            Register() = delete;
-            Register(std::string_view n, int i);
+            Instruction::TokenType token_type;
+            std::variant<Instruction::OpCode, int, std::string_view> value;
+
+            Token();
+            Token(Instruction::TokenType type, Instruction::OpCode val);
+            Token(Instruction::TokenType type, int val);
+            Token(Instruction::TokenType type, std::string_view val);
+            
+    };
+    
+    class UnvalInst {   //unvalidated parser generated instructions
+
+        private:
+
+            std::array<std::optional<Token>, 4> token_arr;
+            size_t used_size;
+
+        public:
+
+            UnvalInst();
+            bool push_token(Token token);
 
     };
 
-    class Inst { //instruction node, changing this soon too
+    class Inst { //overhaul
 
-        using Reg = std::optional<Register>;
+        using TokenOpt = std::optional<Token>;
 
         private:
 
             Instruction::OpCode instruction;
-            std::array<Reg, 3> args;
+            std::array<TokenOpt, 3> args;
 
         public:
 
-            Inst(Instruction::OpCode i, Reg r1 = std::nullopt, Reg r2 = std::nullopt, Reg r3 = std::nullopt);
+            Inst(Instruction::OpCode i, TokenOpt t1 = std::nullopt, TokenOpt t2 = std::nullopt, TokenOpt t3 = std::nullopt);
 
     };
 
@@ -95,6 +113,7 @@ namespace Parser {
             State prev_state;
             Action cur_action;
             std::string buffer;
+            size_t buffer_size;
             unsigned char cur_ch;
             size_t ch_count;    //characters counted from input
             size_t line_count;
@@ -103,15 +122,16 @@ namespace Parser {
             
         public:
 
-            std::vector<Inst> pipeline;
+            std::vector<UnvalInst> pipeline;
 
             Tokenizer();
-            void tokenize();
-            Inst create_inst();
+            void tokenize(); //!
             std::optional<Instruction::OpCode> match_token();
-            void set_state();
-            void set_action();
-            void raise_parsing_error(Error::ParsingError e);
+            void set_state(); //:D
+            void set_action(); //:D
+            void execute(); //!
+            UnvalInst create_inst();
+            void raise_parsing_error(Error::ParsingError e); //!
 
     };
 
