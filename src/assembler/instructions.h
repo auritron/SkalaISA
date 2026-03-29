@@ -12,6 +12,7 @@ namespace Instruction {
         Immediate,
         Label,
         Address,
+        Invalid, //debugging purposes
     };
 
     enum class OpCode {

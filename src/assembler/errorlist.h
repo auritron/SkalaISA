@@ -8,6 +8,9 @@ namespace Error {
         LabelNamingError,
         AddressNamingError,
         UnknownCharError,
+        RegisterOutOfRange,
+        ImmediateValueTooBig,
+        AddressOutOfRange,
     };
 
 }

@@ -68,12 +68,12 @@ namespace Parser {
         public:
 
             Instruction::TokenType token_type;
-            std::variant<Instruction::OpCode, int, std::string_view> value;
+            std::variant<Instruction::OpCode, int, std::string> value;
 
             Token();
             Token(Instruction::TokenType type, Instruction::OpCode val);
             Token(Instruction::TokenType type, int val);
-            Token(Instruction::TokenType type, std::string_view val);
+            Token(Instruction::TokenType type, std::string val);
             
     };
     
@@ -113,7 +113,7 @@ namespace Parser {
             State prev_state;
             Action cur_action;
             std::string buffer;
-            size_t buffer_size;
+            UnvalInst cur_inst;
             unsigned char cur_ch;
             size_t ch_count;    //characters counted from input
             size_t line_count;
