@@ -19,6 +19,7 @@ namespace assembler_mod {
             using Pipeline = std::vector<instruction_mod::Inst>;
             Pipeline instruction_pipeline;
 
+            Assembler();
             void assemble_prog(Pipeline& pipeline);
 
     };

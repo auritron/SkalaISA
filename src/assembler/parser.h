@@ -44,7 +44,7 @@ namespace parser_mod {
         Idle,   //do nothing
     };
 
-    class Tokenizer {
+    class Parser {
         
         private:
             State cur_state;
@@ -59,7 +59,7 @@ namespace parser_mod {
             
         public:
 
-            Tokenizer();
+            Parser();
             void tokenize(assembler_mod::Assembler::Pipeline& pipeline); //!
             void set_state(); //:D
             void set_action(); //:D

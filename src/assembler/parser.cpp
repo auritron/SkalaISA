@@ -32,7 +32,7 @@ bool instruction_mod::Inst::push_token(Token&& token) {
     return false;
 }
 
-Tokenizer::Tokenizer() :
+Parser::Parser() :
     cur_state{State::Nil},
     prev_state{State::Nil},
     cur_action{Action::Idle},
@@ -44,7 +44,7 @@ Tokenizer::Tokenizer() :
     col_count{0}
 { }
 
-void Tokenizer::set_state() {
+void Parser::set_state() {
 
 
     if (cur_ch == ';') {
@@ -292,7 +292,7 @@ void Tokenizer::set_state() {
 
 }
 
-void Tokenizer::set_action() {
+void Parser::set_action() {
 
     switch ( state_map.at(prev_state) ) {
 
@@ -340,7 +340,7 @@ void Tokenizer::set_action() {
 
 }
 
-void Tokenizer::execute(assembler_mod::Assembler::Pipeline& pipeline) {
+void Parser::execute(assembler_mod::Assembler::Pipeline& pipeline) {
         
     instruction_mod::Token token;
     switch (cur_action) {
@@ -410,7 +410,7 @@ void Tokenizer::execute(assembler_mod::Assembler::Pipeline& pipeline) {
 
 }
 
-void Tokenizer::tokenize(assembler_mod::Assembler::Pipeline& pipeline) {
+void Parser::tokenize(assembler_mod::Assembler::Pipeline& pipeline) {
 
     try {
         if (cur_state != State::Err && cur_state != State::Cmt) {
@@ -438,6 +438,6 @@ void Tokenizer::tokenize(assembler_mod::Assembler::Pipeline& pipeline) {
     prev_state = cur_state;
 }
 
-void Tokenizer::raise_parsing_error(ParseErr e) {
+void Parser::raise_parsing_error(ParseErr e) {
     throw e;
 }
