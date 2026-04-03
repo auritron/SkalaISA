@@ -20,7 +20,8 @@ namespace assembler_mod {
             Pipeline instruction_pipeline;
 
             Assembler();
-            void assemble_prog(Pipeline& pipeline);
+            void assemble_prog(Pipeline& pipeline, const std::string& file);
+            void dbg_display_parse_tokens(const Pipeline& pipeline);
 
     };
 

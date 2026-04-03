@@ -82,7 +82,9 @@ namespace instruction_mod {
         public:
 
             TokenType token_type;
-            std::variant<OpCode, int, std::string> value;
+
+            using TokenDataType = std::variant<OpCode, int, std::string>;
+            TokenDataType value;
 
             Token();
             Token(TokenType type, OpCode val);
@@ -97,12 +99,7 @@ namespace instruction_mod {
 
             static constexpr int INST_SIZE = 4;
             size_t used_size;
-
-        private:
-
             std::array<std::optional<Token>, INST_SIZE> token_arr;
-
-        public:
 
             Inst();
             bool push_token(Token&& token);

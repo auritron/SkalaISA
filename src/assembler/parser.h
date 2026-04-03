@@ -60,7 +60,7 @@ namespace parser_mod {
         public:
 
             Parser();
-            void tokenize(std::vector<instruction_mod::Inst>& pipeline); //!
+            void tokenize(std::vector<instruction_mod::Inst>& pipeline, char cur_char); //!
             void set_state(); //:D
             void set_action(); //:D
             void execute(std::vector<instruction_mod::Inst>& pipeline); //:D

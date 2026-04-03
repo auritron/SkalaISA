@@ -408,7 +408,9 @@ void Parser::execute(std::vector<instruction_mod::Inst>& pipeline) {
 
 }
 
-void Parser::tokenize(std::vector<instruction_mod::Inst>& pipeline) {
+void Parser::tokenize(std::vector<instruction_mod::Inst>& pipeline, char current_char) {
+
+    cur_ch = current_char;
 
     try {
         if (cur_state != State::Err && cur_state != State::Cmt) {
