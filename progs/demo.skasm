@@ -1,4 +1,4 @@
-LOAD #1, R0, x
+LOAD #1, R0, x, SEND
 SEND #5, HELLO
 #75, 83, R0, LOAD
 ADD #55, R15, #8

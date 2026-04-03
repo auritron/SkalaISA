@@ -430,7 +430,7 @@ namespace parser_mod {
 
     }
 
-    void Parser::tokenize(std::vector<instruction_mod::Inst>& pipeline, const char current_char) {
+    void Parser::tokenize(std::vector<instruction_mod::Inst>& pipeline, char current_char) {
 
         cur_ch = current_char;
 
@@ -442,14 +442,15 @@ namespace parser_mod {
             }
         } catch (const ParseErr& e) {
             cur_state = State::Err;
+            buffer.clear();
             //error_log.log(e, line_count, column_count); //add later
         }
 
         if (cur_ch == '\n') {
             if (cur_state != State::Err && cur_inst.used_size != 0) {
                 pipeline.push_back(std::move(cur_inst));
-                cur_inst = instruction_mod::Inst();
             }
+            cur_inst = instruction_mod::Inst(); //reset current instruction
             ++line_count;
             col_count = 0;
             cur_state = State::Nil;
