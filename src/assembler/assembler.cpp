@@ -11,7 +11,7 @@ Assembler::Assembler() :
     error_detected{false}
 { }
 
-void Assembler::assemble_prog(Pipeline& pipeline, const std::string& file) {
+void Assembler::assemble_prog(instruction_mod::Pipeline& pipeline, const std::string& file) {
     auto parser = parser_mod::Parser();
     for (int pos = 0; pos < file.size(); pos++) {
         parser.tokenize(pipeline, file[pos]);
@@ -23,7 +23,7 @@ void Assembler::assemble_prog(Pipeline& pipeline, const std::string& file) {
     parser.tokenize(pipeline, '\n'); //add \n sentinel
 }
 
-void Assembler::dbg_display_parse_tokens(const Pipeline& pipeline) {
+void Assembler::dbg_display_parse_tokens(const instruction_mod::Pipeline& pipeline) {
 
     for (int i = 0; i < pipeline.size(); i++) {
         std::cout << "Instruction No. " << i + 1 << ": ";

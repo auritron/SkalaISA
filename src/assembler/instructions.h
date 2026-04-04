@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <vector>
 #include <unordered_map>
 #include <string>
 #include <string_view>
@@ -105,5 +106,7 @@ namespace instruction_mod {
             bool push_token(Token&& token);
 
     };
+
+    using Pipeline = std::vector<Inst>;
 
 }

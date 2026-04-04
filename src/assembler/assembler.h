@@ -16,12 +16,11 @@ namespace assembler_mod {
             bool error_detected;
 
         public:
-            using Pipeline = std::vector<instruction_mod::Inst>;
-            Pipeline instruction_pipeline;
+            instruction_mod::Pipeline instruction_pipeline;
 
             Assembler();
-            void assemble_prog(Pipeline& pipeline, const std::string& file);
-            void dbg_display_parse_tokens(const Pipeline& pipeline);
+            void assemble_prog(instruction_mod::Pipeline& pipeline, const std::string& file);
+            void dbg_display_parse_tokens(const instruction_mod::Pipeline& pipeline);
 
     };
 

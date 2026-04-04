@@ -12,7 +12,10 @@ namespace Error {
         ImmediateValueTooBig,
         AddressOutOfRange,
         InstructionTooLong,
-        ContinuousSeperatorError,
+    };
+
+    enum class SemanticError {
+        
     };
 
 }

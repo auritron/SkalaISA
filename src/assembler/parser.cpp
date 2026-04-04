@@ -327,7 +327,7 @@ namespace parser_mod {
 
     }
 
-    void Parser::execute(std::vector<instruction_mod::Inst>& pipeline) {
+    void Parser::execute(instruction_mod::Pipeline& pipeline) {
             
         instruction_mod::Token token;
         switch (cur_action) {
@@ -397,7 +397,7 @@ namespace parser_mod {
 
     }
 
-    void Parser::tokenize(std::vector<instruction_mod::Inst>& pipeline, char current_char) {
+    void Parser::tokenize(instruction_mod::Pipeline& pipeline, char current_char) {
 
         cur_ch = current_char;
 
