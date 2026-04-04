@@ -14,8 +14,7 @@ namespace parser_mod {
         { State::Imt, StateType::Transition },
         { State::Lbt, StateType::Transition },
         { State::Adt, StateType::Transition },
-        { State::Zer, StateType::Transition },
-        { State::Sep, StateType::Separator },
+        { State::Zer, StateType::ZTransition },
         { State::Cmt, StateType::None },
         { State::Nil, StateType::None },
         { State::Err, StateType::None },
@@ -50,7 +49,6 @@ namespace parser_mod {
                 case State::Idn:
                 case State::Reg:
                 case State::Rgt: // despite being a transition state, this is allowed since R is alphanumeric
-                case State::Sep:
                 case State::Imm:
                 case State::Lbl:
                 case State::Adr:
@@ -78,7 +76,6 @@ namespace parser_mod {
 
             switch (cur_state) {
                 case State::Nil:
-                case State::Sep:
                     cur_state = State::Rgt;
                     break;
                 case State::Rgt:
@@ -125,7 +122,6 @@ namespace parser_mod {
                 case State::Adr:
                     raise_parsing_error(ParseErr::AddressNamingError);
                     break;
-                case State::Sep:
                 case State::Nil:
                     cur_state = State::Lbt;
                     break;
@@ -156,40 +152,8 @@ namespace parser_mod {
                 case State::Adr:
                     raise_parsing_error(ParseErr::AddressNamingError);
                     break;
-                case State::Sep:
                 case State::Nil:
                     cur_state = State::Imt;
-                    break;
-                case State::Err:
-                    break;
-                case State::Cmt:
-                    std::abort();
-            }
-
-        } else if (cur_ch == ',') {
-
-            switch (cur_state) {
-                case State::Idn:
-                case State::Rgt:
-                case State::Reg:
-                case State::Imm:
-                case State::Lbl:
-                case State::Adr:
-                case State::Nil:
-                    cur_state = State::Sep;
-                    break;
-                case State::Sep:
-                    raise_parsing_error(ParseErr::ContinuousSeperatorError);
-                    break;
-                case State::Imt:
-                case State::Zer:
-                    raise_parsing_error(ParseErr::ImmediateValueError);
-                    break;
-                case State::Lbt:
-                    raise_parsing_error(ParseErr::LabelNamingError);
-                    break;
-                case State::Adt:
-                    raise_parsing_error(ParseErr::AddressNamingError);
                     break;
                 case State::Err:
                     break;
@@ -203,7 +167,6 @@ namespace parser_mod {
                 case State::Idn:
                 case State::Rgt:
                 case State::Reg:
-                case State::Sep:
                 case State::Nil:
                     cur_state = State::Idn;
                     break;
@@ -238,7 +201,6 @@ namespace parser_mod {
                 case State::Reg:
                     cur_state = State::Reg;
                     break;
-                case State::Sep:
                 case State::Nil:
                     if (cur_ch == '0') { //if its zero, set to zer to transition to address, else raise error
                         cur_state = State::Zer;
@@ -273,7 +235,6 @@ namespace parser_mod {
                 case State::Idn:
                 case State::Rgt:
                 case State::Reg:
-                case State::Sep:
                 case State::Nil:
                     cur_state = State::Idn;
                     break;
@@ -322,12 +283,21 @@ namespace parser_mod {
                     case StateType::Word:
                         cur_action = Action::Push;
                         break;
-                    case StateType::Separator:
                     case StateType::None:
                         cur_action = Action::Emit;
                         break;
-                    case StateType::Transition: // anyways handled by error
-                    case StateType::RTransition:
+                    default: // default, anyways handled by error
+                        cur_action = Action::Idle;
+                        break;
+                }
+                break;
+
+            case StateType::ZTransition:
+                switch ( state_map.at(cur_state) ) { 
+                    case StateType::Transition:
+                        cur_action = Action::Push;
+                        break;
+                    default:
                         cur_action = Action::Idle;
                         break;
                 }
@@ -343,11 +313,8 @@ namespace parser_mod {
                         break;
                 }
                 break;
-
-            case StateType::Separator:
             case StateType::None:
                 switch ( state_map.at(cur_state) ) {
-                    case StateType::Separator:
                     case StateType::None:
                         cur_action = Action::Idle;
                         break;

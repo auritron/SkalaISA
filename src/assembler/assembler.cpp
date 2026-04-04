@@ -26,7 +26,7 @@ void Assembler::assemble_prog(Pipeline& pipeline, const std::string& file) {
 void Assembler::dbg_display_parse_tokens(const Pipeline& pipeline) {
 
     for (int i = 0; i < pipeline.size(); i++) {
-        std::cout << "Instruction No. " << i << ": ";
+        std::cout << "Instruction No. " << i + 1 << ": ";
         auto cur_inst{pipeline[i]};
         for (int j = 0; j < cur_inst.INST_SIZE; j++) {
             auto cur_token{cur_inst.token_arr[j]};

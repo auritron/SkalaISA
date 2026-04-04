@@ -31,8 +31,8 @@ namespace parser_mod {
     enum class StateType {
         Word,
         RTransition, // special variation of transition since its alphanumeric
+        ZTransition, // special variation for 0 prefix as there are two characters required for the address prefix
         Transition,
-        Separator, // mostly redundant with StateType::None, helps with readability though
         None,
     };
 
