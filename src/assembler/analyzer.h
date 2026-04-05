@@ -8,8 +8,10 @@
 
 namespace analyzer_mod {
 
-    using InstructionFmt = std::unordered_map<instruction_mod::OpCode, 
-        std::array<std::optional<instruction_mod::TokenOpt>, instruction_mod::Inst::INST_SIZE - 1>>; //size is 3 by default
+    using Opt = std::optional<instruction_mod::TokenOpt>;
+    using Fmt = std::array<Opt, instruction_mod::Inst::INST_SIZE - 1>; // 3 by default
+
+    using InstructionFmt = std::unordered_map<instruction_mod::OpCode, Fmt>;
     extern const InstructionFmt instruction_fmt;
 
     class Analyzer {

@@ -4,29 +4,26 @@ using instruction_mod::OpCode;
 using TT = instruction_mod::TokenType;
 
 namespace analyzer_mod {
-    
-    using Opt = std::optional<instruction_mod::TokenOpt>;
-    using Fmt = std::array<Opt, instruction_mod::Inst::INST_SIZE - 1>; // 3 by default
 
-    constexpr Opt OPT(TT t) { return instruction_mod::TokenOpt{t}; }
-    constexpr Opt OPT(std::initializer_list<TT> ts) { return instruction_mod::TokenOpt{ts}; }
+    inline Opt OPT(TT t) { return instruction_mod::TokenOpt{t}; }
+    inline Opt OPT(std::initializer_list<TT> ts) { return instruction_mod::TokenOpt{ts}; }
 
-    constexpr Fmt DefineFmt(Opt a, Opt b, Opt c) {
+    inline Fmt DefineFmt(Opt a, Opt b, Opt c) {
         return Fmt{ a, b, c };
     }
 
     //destination is (almost) always first
-    constexpr Fmt Null() { return DefineFmt( std::nullopt, std::nullopt, std::nullopt ); }
-    constexpr Fmt Reg() { return DefineFmt( OPT(TT::Register), std::nullopt, std::nullopt ); }
-    constexpr Fmt RegAdr() { return DefineFmt( OPT(TT::Register), OPT({TT::Address, TT::Variable}), std::nullopt ); }
-    constexpr Fmt AdrReg() { return DefineFmt( OPT({TT::Address, TT::Variable}), OPT(TT::Register), std::nullopt ); }
-    constexpr Fmt RegReg() { return DefineFmt( OPT(TT::Register), OPT(TT::Register), std::nullopt ); }
-    constexpr Fmt RegImm() { return DefineFmt( OPT(TT::Register), OPT(TT::Immediate), std::nullopt ); }
-    constexpr Fmt RegRgI() { return DefineFmt( OPT(TT::Register), OPT({TT::Register, TT::Immediate}), std::nullopt); }
-    constexpr Fmt RgIRgI() { return DefineFmt( OPT({TT::Register, TT::Immediate}), OPT({TT::Register, TT::Immediate}), std::nullopt); }
-    constexpr Fmt RegRegRgI() { return DefineFmt( OPT(TT::Register), OPT(TT::Register), OPT({TT::Register, TT::Immediate}) ); }
-    constexpr Fmt RegRgIRgI() { return DefineFmt( OPT(TT::Register), OPT({TT::Register, TT::Immediate}), OPT({TT::Register, TT::Immediate}) ); }
-    constexpr Fmt Lbl() { return DefineFmt( OPT(TT::Label), std::nullopt, std::nullopt); }
+    inline Fmt Null() { return DefineFmt( std::nullopt, std::nullopt, std::nullopt ); }
+    inline Fmt Reg() { return DefineFmt( OPT(TT::Register), std::nullopt, std::nullopt ); }
+    inline Fmt RegAdr() { return DefineFmt( OPT(TT::Register), OPT({TT::Address, TT::Variable}), std::nullopt ); }
+    inline Fmt AdrReg() { return DefineFmt( OPT({TT::Address, TT::Variable}), OPT(TT::Register), std::nullopt ); }
+    inline Fmt RegReg() { return DefineFmt( OPT(TT::Register), OPT(TT::Register), std::nullopt ); }
+    inline Fmt RegImm() { return DefineFmt( OPT(TT::Register), OPT(TT::Immediate), std::nullopt ); }
+    inline Fmt RegRgI() { return DefineFmt( OPT(TT::Register), OPT({TT::Register, TT::Immediate}), std::nullopt); }
+    inline Fmt RgIRgI() { return DefineFmt( OPT({TT::Register, TT::Immediate}), OPT({TT::Register, TT::Immediate}), std::nullopt); }
+    inline Fmt RegRegRgI() { return DefineFmt( OPT(TT::Register), OPT(TT::Register), OPT({TT::Register, TT::Immediate}) ); }
+    inline Fmt RegRgIRgI() { return DefineFmt( OPT(TT::Register), OPT({TT::Register, TT::Immediate}), OPT({TT::Register, TT::Immediate}) ); }
+    inline Fmt Lbl() { return DefineFmt( OPT(TT::Label), std::nullopt, std::nullopt); }
 
     inline const InstructionFmt instruction_fmt {
 
