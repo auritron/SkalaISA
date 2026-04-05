@@ -19,6 +19,7 @@ namespace analyzer_mod {
         public:
 
             void analyze(const instruction_mod::Pipeline& pipeline) const;
+            void match_opcode(const instruction_mod::Pipeline& pipeline);
             void raise_semantic_error(Error::SemanticError e);
 
     };

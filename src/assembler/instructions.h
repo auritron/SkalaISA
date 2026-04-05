@@ -13,13 +13,13 @@
 namespace instruction_mod {
 
     enum class TokenType {
+        Invalid, //debugging purposes
         OpCode,
         Variable,
         Register,
         Immediate,
         Label,
         Address,
-        Invalid, //debugging purposes
     };
 
     enum class OpCode {

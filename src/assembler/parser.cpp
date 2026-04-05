@@ -29,7 +29,8 @@ namespace parser_mod {
         cur_ch{0},
         ch_count{0},
         line_count{1},
-        col_count{0}
+        col_count{0},
+        error_detected{false}
     { }
 
     void Parser::set_state() {
@@ -429,6 +430,7 @@ namespace parser_mod {
     }
 
     void Parser::raise_parsing_error(ParseErr e) {
+        if (!error_detected) error_detected = true;
         throw e;
     }
 
