@@ -134,7 +134,6 @@ namespace analyzer_mod {
                     break;
             }
         }
-
         return true;
     };
 

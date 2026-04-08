@@ -2,9 +2,10 @@
 
 #include <array>
 #include <optional>
+#include <expected>
 
 #include "instructions.hpp"
-#include "errorlist.hpp"
+#include "error.hpp"
 
 namespace analyzer_mod {
 

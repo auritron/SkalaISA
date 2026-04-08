@@ -53,3 +53,7 @@ void Assembler::dbg_display_parse_tokens(const instruction_mod::Pipeline& pipeli
     }
 
 }
+
+void log_error(std::vector<error::Error>& error_log, error::Error error) {
+    error_log.push_back(error);
+}
