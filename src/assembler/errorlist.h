@@ -1,23 +1,29 @@
 #pragma once
 
-namespace Error {
+namespace error {
 
-    enum class ParsingError {
-        ImmediateValueError,
-        IdentifierNamingError,
-        LabelNamingError,
-        AddressNamingError,
-        UnknownCharError,
-        RegisterOutOfRange,
-        ImmediateValueTooBig,
-        AddressOutOfRange,
-        InstructionTooLong,
-    };
+    class Error {
 
-    enum class SemanticError {
-        MissingOpCodeError,
-        IncorrectFirstToken,
-        IncorrectOperandFmt,
+        public:
+
+            enum class ParsingError {
+                ImmediateValueError,
+                IdentifierNamingError,
+                LabelNamingError,
+                AddressNamingError,
+                UnknownCharError,
+                RegisterOutOfRange,
+                ImmediateValueTooBig,
+                AddressOutOfRange,
+                InstructionTooLong,
+            };
+
+            enum class SemanticError {
+                MissingOpCodeError,
+                IncorrectFirstToken,
+                IncorrectOperandFmt,
+            };
+
     };
 
 }

@@ -13,6 +13,7 @@ namespace assembler_mod {
     class Assembler {
 
         private:
+            std::vector<error::Error> error_log;
             bool error_detected;
 
         public:

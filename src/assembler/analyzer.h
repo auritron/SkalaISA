@@ -24,7 +24,7 @@ namespace analyzer_mod {
             Analyzer(bool err_detected);
             bool validate_opcode(const instruction_mod::Inst& inst, instruction_mod::OpCode opcode) const;
             bool analyze(const instruction_mod::Inst& inst) const;
-            void raise_semantic_error(Error::SemanticError e) const; 
+            void raise_semantic_error(error::Error::SemanticError e) const; 
 
     };
 

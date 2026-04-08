@@ -8,23 +8,26 @@ using namespace assembler_mod;
 
 Assembler::Assembler() :
     instruction_pipeline{},
-    error_detected{false}
+    error_detected{false},
+    error_log{}
 { }
 
 void Assembler::assemble_prog(instruction_mod::Pipeline& pipeline, const std::string& file) {
     auto parser = parser_mod::Parser();
     for (int pos{0}; pos < file.size(); pos++) {
-        parser.tokenize(pipeline, file[pos]);
+        parser.tokenize(pipeline, file[pos], error_log);
         //debugging purpose only
         /*std::cout << magic_enum::enum_name(parser.cur_state) 
         << ", Ln: " << parser.line_count 
         << ", Cm: " << parser.col_count << std::endl;*/
     }
-    parser.tokenize(pipeline, '\n'); //add \n sentinel
+    parser.tokenize(pipeline, '\n', error_log); //add \n sentinel
 
-    auto analyzer = analyzer_mod::Analyzer(false);
-    for (int inst_no{0}; inst_no < pipeline.size(); inst_no++) {
-        analyzer.analyze(pipeline[inst_no]);
+    if (!pipeline.empty()) {
+        auto analyzer = analyzer_mod::Analyzer(false);
+        for (int inst_no{0}; inst_no < pipeline.size(); inst_no++) {
+            analyzer.analyze(pipeline[inst_no]);
+        }
     }
 }
 

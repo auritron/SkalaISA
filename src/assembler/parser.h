@@ -5,6 +5,7 @@
 #include <vector>
 #include <unordered_map>
 #include <stdexcept>
+#include <expected>
 
 #include "instructions.h"
 #include "errorlist.h"
@@ -61,11 +62,10 @@ namespace parser_mod {
         public:
             
             Parser();
-            void tokenize(instruction_mod::Pipeline& pipeline, char cur_char); //:D
-            void set_state(); //:D
-            void set_action(); //:D
-            void execute(instruction_mod::Pipeline& pipeline); //:D
-            void raise_parsing_error(Error::ParsingError e); //!
+            void tokenize(instruction_mod::Pipeline& pipeline, char cur_char, std::vector<error::Error>& error_log); //:D
+            std::expected<void, error::Error::ParsingError> set_state(); //:D
+            std::expected<void, error::Error::ParsingError> set_action(); //:D
+            std::expected<void, error::Error::ParsingError> execute(instruction_mod::Pipeline& pipeline); //:D
 
     };
 

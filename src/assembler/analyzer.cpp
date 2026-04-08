@@ -1,7 +1,9 @@
 #include "analyzer.h"
+#include "../overload.hpp"
 
 using instruction_mod::OpCode;
 using TT = instruction_mod::TokenType;
+using SemErr = error::Error::SemanticError;
 
 namespace analyzer_mod {
 
@@ -94,11 +96,11 @@ namespace analyzer_mod {
                 const auto& cur_target = (opc_pattern->second)[tkn-1];
                 if (cur_token.has_value() == cur_target.has_value()) {
                     if (cur_token.has_value() && !cur_target.value().token_type_exists(cur_token->token_type)) {
-                        raise_semantic_error(Error::SemanticError::IncorrectOperandFmt);
+                        raise_semantic_error(SemErr::IncorrectOperandFmt);
                         return false;
                     }
                 } else {
-                    raise_semantic_error(Error::SemanticError::IncorrectOperandFmt);
+                    raise_semantic_error(SemErr::IncorrectOperandFmt);
                     return false;
                 }
             }
@@ -110,22 +112,34 @@ namespace analyzer_mod {
     bool Analyzer::analyze(const instruction_mod::Inst& inst) const {
         const auto& first_token = inst.token_arr[0];
         if (!first_token.has_value()) { //check if first token exists, should not happen ideally but still
-            raise_semantic_error(Error::SemanticError::MissingOpCodeError);
+            raise_semantic_error(SemErr::MissingOpCodeError);
         } else {
             switch(first_token->token_type) {
-                case TT::OpCode:
-                    //opcode matching and validation
+                case TT::OpCode: {
+                    bool is_matched = std::visit(overload{
+                        [this, inst](instruction_mod::OpCode oc) -> bool {
+                            if (!validate_opcode(inst, oc)) return false;
+                            return true;
+                        },
+                        [](auto a) { std::abort(); return false; }, //shouldn't happen
+                    }, first_token->value);
+                    if (!is_matched) return false;
                     break;
+                }
                 case TT::Label:
                     //label validation
                     break;
                 default:
-                    raise_semantic_error(Error::SemanticError::IncorrectFirstToken);
+                    raise_semantic_error(SemErr::IncorrectFirstToken);
                     break;
             }
         }
+
+        return true;
     };
 
-    
+    void Analyzer::raise_semantic_error(SemErr e) const {
+
+    };
 
 }
