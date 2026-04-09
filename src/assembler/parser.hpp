@@ -59,7 +59,6 @@ namespace parser_mod {
             size_t ch_count;    //characters counted from input
             size_t line_count;
             size_t col_count;
-            bool error_detected;
             
         public:
             

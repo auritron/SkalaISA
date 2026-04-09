@@ -28,7 +28,6 @@ namespace parser_mod {
         ch_count{0},
         line_count{1},
         col_count{0},
-        error_detected{false}
     { }
 
     std::expected<void, ParseErr> Parser::set_state() {
@@ -414,7 +413,6 @@ namespace parser_mod {
             if (!result) {
                 cur_state = State::Err;
                 buffer.clear();
-                if (!error_detected) error_detected = true;
                 return std::unexpected<ParseErr>(result.error());
             }
         }

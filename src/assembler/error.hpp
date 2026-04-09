@@ -35,7 +35,11 @@ namespace error {
         public:
 
             Error() = delete;
-            Error(Err auto error);
+
+            Error(Err auto error) :
+                error{error}
+            { }
+
             std::string_view fmt_error_as_str();
 
     };
