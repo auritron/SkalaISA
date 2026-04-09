@@ -3,7 +3,6 @@
 
 using instruction_mod::OpCode;
 using TT = instruction_mod::TokenType;
-using SemErr = error::SemanticError;
 
 namespace analyzer_mod {
 
@@ -85,7 +84,11 @@ namespace analyzer_mod {
         error_detected{err_detected}
     { }
 
-    bool Analyzer::validate_opcode(const instruction_mod::Inst& inst, instruction_mod::OpCode opcode) const {
+    std::expected<void, SemErr> Analyzer::validate_token(const instruction_mod::Token& inst) const {
+        
+    }
+
+    std::expected<void, SemErr> Analyzer::validate_opcode(const instruction_mod::Inst& inst, instruction_mod::OpCode opcode) const {
 
         const auto opc_pattern = instruction_fmt.find(opcode);
         if (opc_pattern == instruction_fmt.end()) {
@@ -96,49 +99,43 @@ namespace analyzer_mod {
                 const auto& cur_target = (opc_pattern->second)[tkn-1];
                 if (cur_token.has_value() == cur_target.has_value()) {
                     if (cur_token.has_value() && !cur_target.value().token_type_exists(cur_token->token_type)) {
-                        raise_semantic_error(SemErr::IncorrectOperandFmt);
-                        return false;
+                        return std::unexpected(SemErr::IncorrectOperandFmt);
                     }
                 } else {
-                    raise_semantic_error(SemErr::IncorrectOperandFmt);
-                    return false;
+                    return std::unexpected(SemErr::IncorrectOperandFmt);
                 }
             }
         }
-        return true;
+        return {};
         
     }
 
-    bool Analyzer::analyze(const instruction_mod::Inst& inst) const {
+    std::expected<void, SemErr> Analyzer::analyze(const instruction_mod::Inst& inst) const {
         const auto& first_token = inst.token_arr[0];
         if (!first_token.has_value()) { //check if first token exists, should not happen ideally but still
-            raise_semantic_error(SemErr::MissingOpCodeError);
+            return std::unexpected(SemErr::MissingOpCodeError);
         } else {
             switch(first_token->token_type) {
                 case TT::OpCode: {
-                    bool is_matched = std::visit(overload{
-                        [this, inst](instruction_mod::OpCode oc) -> bool {
-                            if (!validate_opcode(inst, oc)) return false;
-                            return true;
+                    auto is_matched = std::visit(overload{
+                        [this, inst](instruction_mod::OpCode oc) -> std::expected<void, SemErr> {
+                            return validate_opcode(inst, oc);
                         },
-                        [](auto a) { std::abort(); return false; }, //shouldn't happen
+                        [](auto a) { std::abort(); return std::unexpected(SemErr::UnknownSemanticError); }, //shouldn't happen
                     }, first_token->value);
-                    if (!is_matched) return false;
+                    if (!is_matched) return is_matched;
+                    //remaining validation
                     break;
                 }
                 case TT::Label:
                     //label validation
                     break;
                 default:
-                    raise_semantic_error(SemErr::IncorrectFirstToken);
+                    return std::unexpected(SemErr::IncorrectFirstToken);
                     break;
             }
         }
-        return true;
-    };
-
-    void Analyzer::raise_semantic_error(SemErr e) const {
-
+        return {};
     };
 
 }

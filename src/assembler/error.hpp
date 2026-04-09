@@ -23,6 +23,7 @@ namespace error {
         MissingOpCodeError,
         IncorrectFirstToken,
         IncorrectOperandFmt,
+        UnknownSemanticError,
     };
 
     template <typename T>

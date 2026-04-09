@@ -27,7 +27,7 @@ namespace parser_mod {
         cur_ch{0},
         ch_count{0},
         line_count{1},
-        col_count{0},
+        col_count{0}
     { }
 
     std::expected<void, ParseErr> Parser::set_state() {
