@@ -162,7 +162,10 @@ namespace analyzer_mod {
                         [this, inst](instruction_mod::OpCode oc) -> std::expected<void, SemErr> {
                             return validate_opcode(inst, oc);
                         },
-                        [](auto a) { std::abort(); return std::unexpected(SemErr::UnknownSemanticError); }, //shouldn't happen
+                        [](auto a) -> std::expected<void, SemErr> { 
+                            std::abort(); 
+                            return std::unexpected(SemErr::UnknownSemanticError); 
+                        }, //shouldn't happen
                     }, first_token->value);
                     if (!is_matched) return is_matched;
                     //remaining validation

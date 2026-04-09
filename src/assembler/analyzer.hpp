@@ -25,6 +25,7 @@ namespace analyzer_mod {
         public:
 
             Analyzer(bool err_detected);
+            std::expected<void, SemErr> scout_lbl(const instruction_mod::Token& token) const;
             std::expected<void, SemErr> validate_token(const instruction_mod::Token& token) const;
             std::expected<void, SemErr> validate_opcode(const instruction_mod::Inst& inst, instruction_mod::OpCode opcode) const;
             std::expected<void, SemErr> analyze(const instruction_mod::Inst& inst) const;
