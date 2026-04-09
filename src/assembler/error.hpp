@@ -3,6 +3,7 @@
 #include <vector>
 #include <variant>
 #include <concepts>
+#include <string_view>
 
 namespace error {
 
@@ -29,14 +30,13 @@ namespace error {
 
     class Error {
 
-        using ErrorType = std::variant<ParsingError, SemanticError>;
-        ErrorType error;
+        std::variant<ParsingError, SemanticError> error;
 
         public:
 
             Error() = delete;
             Error(Err auto error);
-            void display_error(Err auto error);
+            std::string_view fmt_error_as_str();
 
     };
 
