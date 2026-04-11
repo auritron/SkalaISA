@@ -46,6 +46,8 @@ std::string_view Error::fmt_error_as_str() {
                     return "Immediate value in instruction is out of range";
                 case SemanticError::AddressOutOfRange:
                     return "Memory address in instruction is out of range";
+                case SemanticError::LabelAlreadyExists:
+                    return "Specified Label has already been defined";
                 case SemanticError::UnknownSemanticError:
                     return "Unknown semantic error";
                 default:

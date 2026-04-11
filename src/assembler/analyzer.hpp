@@ -3,6 +3,8 @@
 #include <array>
 #include <optional>
 #include <expected>
+#include <string_view>
+#include <unordered_set>
 
 #include "instructions.hpp"
 #include "error.hpp"
@@ -20,12 +22,13 @@ namespace analyzer_mod {
     class Analyzer {
 
         private:
-            bool error_detected;
+
+            std::unordered_set<std::string> label_table;
 
         public:
 
-            Analyzer(bool err_detected);
-            std::expected<void, SemErr> scout_lbl(const instruction_mod::Token& token) const;
+            Analyzer();
+            std::expected<void, SemErr> scout_lbl(const instruction_mod::Inst& inst);
             std::expected<void, SemErr> validate_token(const instruction_mod::Token& token) const;
             std::expected<void, SemErr> validate_opcode(const instruction_mod::Inst& inst, instruction_mod::OpCode opcode) const;
             std::expected<void, SemErr> analyze(const instruction_mod::Inst& inst) const;

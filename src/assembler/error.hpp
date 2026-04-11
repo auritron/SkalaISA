@@ -28,6 +28,7 @@ namespace error {
         RegisterOutOfRange,
         ImmediateOutOfRange,
         AddressOutOfRange,
+        LabelAlreadyExists,
     };
 
     template <typename T>

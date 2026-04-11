@@ -80,11 +80,35 @@ namespace analyzer_mod {
 
     };
 
-    Analyzer::Analyzer(bool err_detected) :
-        error_detected{err_detected}
+    Analyzer::Analyzer() :
+        label_table{}
     { }
 
-    std::expected<void, SemErr> Analyzer::scout_lbl(const instruction_mod::Token& token) const {
+    std::expected<void, SemErr> Analyzer::scout_lbl(const instruction_mod::Inst& inst) {
+        const auto& first_token = inst.token_arr[0];
+        if (!first_token.has_value()) { //check if first token exists, should not happen ideally but still
+            return std::unexpected(SemErr::MissingOpCodeError);
+        } else {
+            switch (first_token->token_type) {
+                case TT::Label:
+                    return std::visit(overload{
+                        [this](std::string val) -> std::expected<void, SemErr> {
+                            auto [_, result] = label_table.insert(std::move(val));
+                            if (!result) {
+                                return std::unexpected(SemErr::LabelAlreadyExists);
+                            }
+                            return {};
+                        },
+                        [this](auto) -> std::expected<void, SemErr> {
+                            std::abort();
+                            return std::unexpected(SemErr::UnknownSemanticError);
+                        }
+                    }, first_token->value);
+                    //add label to symbol table
+                default: //ignore otherwise (for now)
+                    return {};
+            }
+        }
         return {};
     }
 
@@ -102,7 +126,7 @@ namespace analyzer_mod {
                             return {};
                         }
                     case TT::Immediate:
-                        if (tkn_i < 0 || tkn_i >= instruction_mod::Inst::MAX_IMM_VAL) {
+                        if (tkn_i < 0 || tkn_i >= instruction_mod::Inst::MAX_IMM_VAL) { //add limit of 15 for shifting
                             return std::unexpected(SemErr::ImmediateOutOfRange);
                         } else {
                             return {};
