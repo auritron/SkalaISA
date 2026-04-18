@@ -28,6 +28,10 @@ void Assembler::assemble_prog(instruction_mod::Pipeline& pipeline, const std::st
     if (!pipeline.empty()) {
         auto analyzer = analyzer_mod::Analyzer();
         for (int inst_no{0}; inst_no < pipeline.size(); ++inst_no) {
+            auto scout_success = analyzer.scout_lbl(pipeline[inst_no]);
+            if (!scout_success) { if (!error_detected) error_detected = true; log_error(scout_success.error()); };
+        } 
+        for (int inst_no{0}; inst_no < pipeline.size(); ++inst_no) {
             auto analyze_success = analyzer.analyze(pipeline[inst_no]);
             if (!analyze_success) { 
                 if (!error_detected) error_detected = true; 
