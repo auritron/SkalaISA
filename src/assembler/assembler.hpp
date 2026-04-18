@@ -21,7 +21,7 @@ namespace assembler_mod {
 
             Assembler();
             void assemble_prog(instruction_mod::Pipeline& pipeline, const std::string& file);
-            void dbg_display_parse_tokens(const instruction_mod::Pipeline& pipeline) const;
+            void dbg_display_tokens(const instruction_mod::Pipeline& pipeline) const;
             void log_error(error::Err auto error);
 
     };

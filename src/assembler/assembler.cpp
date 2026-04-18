@@ -29,14 +29,16 @@ void Assembler::assemble_prog(instruction_mod::Pipeline& pipeline, const std::st
     }} 
 
     if (!pipeline.empty()) {
-        auto analyzer = analyzer_mod::Analyzer(false);
+        auto analyzer = analyzer_mod::Analyzer();
         for (int inst_no{0}; inst_no < pipeline.size(); ++inst_no) {
-            analyzer.analyze(pipeline[inst_no]);
+            auto analyze_success = analyzer.analyze(pipeline[inst_no]);
+            if (!analyze_success) { if (!error_detected) error_detected = true; log_error(analyze_success.error()); };
         }
     }
+
 }
 
-void Assembler::dbg_display_parse_tokens(const instruction_mod::Pipeline& pipeline) const {
+void Assembler::dbg_display_tokens(const instruction_mod::Pipeline& pipeline) const {
 
     for (int i{0}; i < pipeline.size(); ++i) {
         std::cout << "Instruction No. " << i + 1 << ": ";

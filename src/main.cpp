@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
         std::vector<instruction_mod::Inst> inst_pipeline{};
         
         assembler.assemble_prog(inst_pipeline, buffer.str());
-        assembler.dbg_display_parse_tokens(inst_pipeline);
+        assembler.dbg_display_tokens(inst_pipeline);
         
     } else {
         std::cout << "Error: File not found!" << std::endl;
