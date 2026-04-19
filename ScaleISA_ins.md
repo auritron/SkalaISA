@@ -1,48 +1,83 @@
-# Memory and Registers -
+# Instruction Types
+
+## R-instruction
+- Register only  
+- OPCODE REG REG (REG)  
+- SET, NOT, AND, OR, XOR, STL, STR, RTL, RTR, ADD, SUB, MUL, DIV, MOD, CMP  
+
+## I-instruction
+- Register + Immediate  
+- OPCODE REG (REG) IMM  
+- SET, NOT, AND, OR, XOR, STL, STR, RTL, RTR, ADD, SUB, MUL, DIV, MOD, CMP
+
+## M-instruction
+- Memory Management  
+- OPCODE REG/ADR ADR/REG  
+- LOAD, SEND  
+
+## J-instruction
+- Jumping and Branching  
+- OPCODE @LABEL
+- WEQ, WGT, WLT, WCY, WOV, WDZ, GOTO, CAL  
+
+## S-instruction
+- Single Register Operation  
+- OPCODE REG  
+- PUSH, POP, PRINT(VM only), PRINTC(VM only)  
+
+## N-instruction
+- No Operands  
+- OPCODE  
+- RET, END, CLR  
+
+
+# Instruction Opcodes
+
+## memory and registers
 LOAD  
 SEND  
-COPY  
 SET  
-SWAP  
 
-# Bitwise logic -
+## bitwise
 NOT  
 AND  
 OR  
 XOR  
 
-# Shift and Rotate -
+## shift and rotation
 STL  
 STR  
 RTL  
 RTR  
 
-# Arithmetic -
+## arithmetic
+NEG  
 ADD  
 SUB  
 MUL  
 DIV  
 MOD  
-NEG  
 
-# Comparison and Branching -
-CMP (flags - Z, S, C, O)  
+## comparison and branching
+CMP  
 GOTO  
 WEQ  
 WGT  
 WLT  
+WCY  
+WOV  
+WDZ  
 
-# Stacks and Sub-routines -
+## stacks and sub-routines
 CAL  
 RET  
 PUSH  
 POP  
 
-# I/O -
+## i/o
 PRINT  
 PRINTC  
 
-# Misc. and Debugging -
+## misc. and debugging
 END  
-CLRC  
-CLRR  
+CLR  
