@@ -37,56 +37,56 @@ Opcode - 3 bits for type + 5 bits for instruction (8 bits total)
 - R-type: (opcode 8) (dest 4 | src1 4)   (src2 4 | unused 4) (unused 8)  
 - I-type: (opcode 8) (dest 4 | src  4)   (imm high 8)        (imm low 8)  
 - M-type: (opcode 8) (reg  4 | unused 4) (addr high 8)       (addr low 8)  
-- J-type: (opcode 8) (addr high 8)       (addr mid 8)        (addr low 8)  ← only 16 bits used  
+- J-type: (opcode 8) (unused 8)          (addr high 8)       (addr low 8)
 - S-type: (opcode 8) (reg  4 | unused 4) (unused 8)          (unused 8)  
 - N-type: (opcode 8) (unused 8)          (unused 8)          (unused 8)  
 
 # Instruction Opcodes
 
 ## memory and registers
-LOAD  
-SEND  
-SET  
+LOAD Rdst, ADRsrc  
+SEND Rsrc, ADRdst  
+SET  Rdst, Rsrc  
 
 ## bitwise
-NOT  
-AND  
-OR  
-XOR  
+NOT  Rdst, Rax  
+AND  Rdst, Rax, Rbx  
+OR   Rdst, Rax, Rbx  
+XOR  Rdst, Rax, Rbx  
 
 ## shift and rotation
-STL  
-STR  
-RTL  
-RTR  
+STL  Rdst, Rax  
+STR  Rdst, Rax  
+RTL  Rdst, Rax  
+RTR  Rdst, Rax  
 
 ## arithmetic
-NEG  
-ADD  
-SUB  
-MUL  
-DIV  
-MOD  
+NEG  Rdst, Rax  
+ADD  Rdst, Rax, Rbx  
+SUB  Rdst, Rax, Rbx  
+MUL  Rdst, Rax, Rbx  
+DIV  Rdst, Rax, Rbx  
+MOD  Rdst, Rax, Rbx  
 
 ## comparison and branching
-CMP  
-GOTO  
-WEQ  
-WGT  
-WLT  
-WCY  
-WOV  
-WDZ  
+CMP  Rax, Rbx  
+GOTO @LBL  
+WEQ  @LBL  
+WGT  @LBL  
+WLT  @LBL  
+WCY  @LBL  
+WOV  @LBL  
+WDZ  @LBL  
 
 ## stacks and sub-routines
-CAL  
+CAL  @LBL  
 RET  
-PUSH  
-POP  
+PUSH Rsrc
+POP  Rdst
 
 ## i/o
-PRINT  
-PRINTC  
+PRINT  Rsrc
+PRINTC Rsrc
 
 ## misc. and debugging
 END  
