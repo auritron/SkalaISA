@@ -29,9 +29,9 @@ namespace analyzer_mod {
 
             Analyzer();
             std::expected<void, SemErr> scout_lbl(const instruction_mod::Inst& inst); // :D
-            std::expected<void, SemErr> validate_token(const instruction_mod::Token& token) const; // !
-            std::expected<void, SemErr> validate_opcode(const instruction_mod::Inst& inst, instruction_mod::OpCode opcode) const; // !
-            std::expected<void, SemErr> analyze(const instruction_mod::Inst& inst) const; // !
+            std::expected<void, SemErr> validate_token(const instruction_mod::Token& token) const; // :D
+            std::expected<void, SemErr> validate_opcode(const instruction_mod::Inst& inst, instruction_mod::OpCode opcode) const; // :D
+            std::expected<void, SemErr> analyze(const instruction_mod::Inst& inst) const; // :D
 
     };
 

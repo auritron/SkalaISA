@@ -30,6 +30,16 @@
 - OPCODE  
 - RET, END, CLR  
 
+# Instruction Binary Format
+
+Instruction Length - 32 bits (4 bytes); Word Length - 16 bits (2 bytes)
+Opcode - 3 bits for type + 5 bits for instruction (8 bits total)
+- R-type: (opcode 8) (dest 4 | src1 4)   (src2 4 | unused 4) (unused 8)  
+- I-type: (opcode 8) (dest 4 | src  4)   (imm high 8)        (imm low 8)  
+- M-type: (opcode 8) (reg  4 | unused 4) (addr high 8)       (addr low 8)  
+- J-type: (opcode 8) (addr high 8)       (addr mid 8)        (addr low 8)  ← only 16 bits used  
+- S-type: (opcode 8) (reg  4 | unused 4) (unused 8)          (unused 8)  
+- N-type: (opcode 8) (unused 8)          (unused 8)          (unused 8)  
 
 # Instruction Opcodes
 

@@ -17,7 +17,6 @@ namespace analyzer_mod {
     inline Fmt Null() { return DefineFmt( std::nullopt, std::nullopt, std::nullopt ); }
     inline Fmt Reg() { return DefineFmt( OPT(TT::Register), std::nullopt, std::nullopt ); }
     inline Fmt RegAdr() { return DefineFmt( OPT(TT::Register), OPT({TT::Address, TT::Variable}), std::nullopt ); }
-    inline Fmt AdrReg() { return DefineFmt( OPT({TT::Address, TT::Variable}), OPT(TT::Register), std::nullopt ); }
     inline Fmt RegRgI() { return DefineFmt( OPT(TT::Register), OPT({TT::Register, TT::Immediate}), std::nullopt); }
     inline Fmt RgIRgI() { return DefineFmt( OPT({TT::Register, TT::Immediate}), OPT({TT::Register, TT::Immediate}), std::nullopt); }
     inline Fmt RegRegRgI() { return DefineFmt( OPT(TT::Register), OPT(TT::Register), OPT({TT::Register, TT::Immediate}) ); }
@@ -28,7 +27,7 @@ namespace analyzer_mod {
 
         //  memory and registers
         { OpCode::LOAD, RegAdr() },
-        { OpCode::SEND, AdrReg() },
+        { OpCode::SEND, RegAdr() },
         { OpCode::SET,  RegRgI() },
 
         //  bitwise
