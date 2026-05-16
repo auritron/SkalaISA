@@ -1,8 +1,6 @@
 #include "analyzer.hpp"
 #include "../overload.hpp"
 
-#include <iostream>
-
 using instruction_mod::OpCode;
 using TT = instruction_mod::TokenType;
 
@@ -183,17 +181,18 @@ namespace analyzer_mod {
                         if (!tkn_val_res) { 
                             return tkn_val_res;
                         } else {
-                            const auto cur_inst_type = instruction_mod::instruction_types.find(opcode);
-                            if (cur_inst_type == instruction_mod::instruction_types.end()) {
-                                return std::unexpected(SemErr::UnknownSemanticError);
-                            } else {
-                                inst.inst_type = cur_inst_type->second;
-                            }
+                            //...
                         }
                     }
                 }
 
             }
+        }
+        const auto cur_inst_type = instruction_mod::instruction_types.find(opcode);
+        if (cur_inst_type == instruction_mod::instruction_types.end()) {
+            return std::unexpected(SemErr::UnknownSemanticError);
+        } else {
+            inst.inst_type = cur_inst_type->second;
         }
         return {};
         

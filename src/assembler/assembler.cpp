@@ -37,9 +37,9 @@ void Assembler::assemble_prog(instruction_mod::Pipeline& pipeline, const std::st
             if (!analyze_success) { //debug
                 if (!error_detected) error_detected = true; 
                 log_error(analyze_success.error()); 
-                std::cout << "INVALID\n";
+                //std::cout << "INVALID\n";
             } else {
-                std::cout << "VALID\n";
+                //std::cout << "VALID\n";
             };
             analyzer.RI_inst_classify(pipeline[inst_no]);
         }
